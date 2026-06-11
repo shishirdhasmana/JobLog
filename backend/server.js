@@ -1,5 +1,10 @@
+import "./src/config/dns.js" 
+import "dotenv/config";
 import express from "express"
-import 'dotenv/config'
+import connect_db from "./src/config/db.js"
+
+connect_db()
+
 const app=express()
 const port=process.env.PORT
 
