@@ -2,7 +2,7 @@ import React from 'react';
 
 const Logo = () => {
   return (
-    <svg className="h-10 w-auto sm:h-12" viewBox="0 0 680 72" role="img" xmlns="http://www.w3.org/2000/svg">
+    <svg className="h-20 w-auto sm:h-12" viewBox="0 0 680 72" role="img" xmlns="http://www.w3.org/2000/svg">
       <title>Ghosted navbar logo</title>
       <desc>Compact black and white Ghosted logo for a navigation bar, with animated trailing dots.</desc>
       <defs>
