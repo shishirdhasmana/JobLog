@@ -1,45 +1,41 @@
-import React, { useState } from "react";
-import Logo from "../components/navBar/Logo";
+import { React, useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-async function handleRoute(email, password) {
-  let item = { email, password };
+async function handleRoute(username, email, password) {
+  let item = { username, email, password };
   try {
-    let result = await fetch("http://localhost:3000/api/users/logIn", {
+    let result = await fetch("http://localhost:3000/api/users/signUp", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify(item),
     });
     const data = await result.json();
-    console.log(data);
     return data;
   } catch (error) {
     throw new Error("Backend is offline");
   }
 }
 
-function LogIn({ logedIn, setLogIn }) {
-  const [password, setPassword] = useState("");
+function Register({ logedIn, setLogIn }) {
   const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [username, setUsername] = useState("");
   const [status, setStatus] = useState("typing");
   const [error, setError] = useState(null);
   const navigate = useNavigate();
-
   async function handleSubmit(e) {
     e.preventDefault();
     setStatus("submitting");
     setError(null);
     try {
-      const res = await handleRoute(email, password);
+      const res = await handleRoute(username, email, password);
       if (res.success == true) {
         setStatus("success");
         console.log("Login Successful");
-        localStorage.setItem("token", res.token);
-        localStorage.setItem("loggedUser", res.user.username);
         setLogIn(true);
-        navigate("/");
+        navigate("/login");
       } else {
-        throw new Error(res.message || "Invalid Creadentials");
+        throw new Error(res.message || "Invalid email or password");
       }
     } catch (err) {
       setStatus("typing");
@@ -51,13 +47,28 @@ function LogIn({ logedIn, setLogIn }) {
     <>
       <div className="min-h-screen flex flex-col items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 px-4">
         {/* <Logo className="mb-8" /> */}
-        <h2 className="text-4xl font-bold text-gray-900 mb-2">Welcome Back</h2>
-        <p className="text-gray-500 mb-8">Sign into your account to continue</p>
+        <h2 className="text-4xl font-bold text-gray-900 mb-2">
+          Create Your Account
+        </h2>
+        <p className="text-gray-500 mb-8">
+          Start tracking your applications today
+        </p>
 
         <form
           onSubmit={handleSubmit}
           className="w-full max-w-md bg-white rounded-3xl shadow-lg border border-gray-200 p-8 flex flex-col gap-4"
         >
+          <span className="text-sm font-medium text-gray-700">Username</span>
+          <input
+            type="text"
+            className="w-full rounded-xl border border-gray-300 px-4 py-3 outline-none focus:border-black transition-all"
+            placeholder="username123"
+            onChange={(e) => {
+              setUsername(e.target.value);
+            }}
+            value={username}
+            disabled={logedIn || status === "submitting"}
+          />
           <span className="text-sm font-medium text-gray-700">Email</span>
           <input
             type="email"
@@ -85,16 +96,16 @@ function LogIn({ logedIn, setLogIn }) {
               status === "submitting"
             }
           >
-            Log in
+            Create Account
           </button>
           {error !== null && (
             <p className="text-red-500 text-sm mt-2">{error.message}</p>
           )}
-          <p>Don't have an account?</p>
+          <p>Already have an account?</p>
         </form>
       </div>
     </>
   );
 }
 
-export default LogIn;
+export default Register;

@@ -9,6 +9,8 @@ const Navbar = ({ logedIn, setLogIn }) => {
     // document.documentElement.classList.toggle('dark');
   };
 
+  
+
   return (
     <nav className="fixed top-6 left-1/2 transform -translate-x-1/2 z-50 w-[95%] max-w-4xl">
       <div className="flex items-center justify-between px-6 py-3 rounded-full bg-white/40 backdrop-blur-md border border-gray-200/50 shadow-sm">
@@ -90,23 +92,27 @@ const Navbar = ({ logedIn, setLogIn }) => {
                 to="/login"
                 className="text-gray-800 hover:text-black transition-colors lowercase font-medium px-2"
               >
-              Login
+                Login
               </NavLink>
               /
               <NavLink
                 to="/register"
                 className="bg-gray-900/10 hover:bg-gray-900/20 text-gray-900 px-5 py-1.5 rounded-full transition-all border border-gray-900/20 lowercase backdrop-blur-sm font-medium"
               >
-              Register
+                Register
               </NavLink>
             </>
           ) : (
             <>
               <button
                 className="bg-red-500 text-white px-5 py-1.5 rounded-full"
-                onClick={() => setLogIn(false)}
+                onClick={() => {
+                  localStorage.removeItem("token");
+                  localStorage.removeItem("loggedUser");
+                  setLogIn(false);
+                }}
               >
-                Sign Out
+                Log out
               </button>
             </>
           )}
