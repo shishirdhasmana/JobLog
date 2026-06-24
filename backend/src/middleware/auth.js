@@ -10,7 +10,6 @@ const protect = async (req, res, next) => {
             message: "No token found"
         });
     }
-
     const token = authorization.split(" ")[1];
 
     try {

@@ -14,7 +14,7 @@ const port = process.env.PORT;
 app.use(cors());
 app.use(express.json());
 app.use("/api/users", userRoutes);
-app.use("/api/job",protect,jobRoutes);
+app.use("/api/job", protect, jobRoutes);
 
 app.listen(port, () => {
   console.log(`App listening at http://localhost:${port}`);

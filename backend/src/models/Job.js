@@ -22,8 +22,21 @@ const jobSchema = new mongoose.Schema({
   status: {
     type: String,
     enum: ["Applied", "Interview", "Ghosted", "Accepted"],
+    default:"Applied"
   },
-});
+  url: {
+    type: String,
+    trim: true,
+  },
+  location: {
+    type: String,
+    trim: true,
+  },
+  description: {
+    type: String,
+    trim: true,
+  },
+},{timestamps:true});
 
 const Job = mongoose.model("Job", jobSchema);
 

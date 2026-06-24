@@ -20,7 +20,7 @@ router.post("/create", async (req, res) => {
   }
 });
 
-//Read Jobs
+//Read All Jobs listed by user
 router.get("/alljobs", async (req, res) => {
   try {
     const jobs = await Job.find({ userId: req.user._id }).sort({ _id: -1 });
@@ -37,7 +37,7 @@ router.get("/alljobs", async (req, res) => {
   }
 });
 
-//Update Status
+//Update Status of Job
 router.put("/changeStatus", async (req, res) => {
   try {
     await Job.updateOne(
@@ -56,5 +56,28 @@ router.put("/changeStatus", async (req, res) => {
     });
   }
 });
+//Web Scrapper for automatic form filling
+
+
+
+
+//Delete JOB
+router.delete('/delete/:id',async(req,res)=>{
+  let id = req.params.id;
+  try {
+   await Job.deleteOne({_id:id,userId:req.user._id})
+   res.status(200).json({
+    success:true,
+    message:"Job deleted successfully"
+   }) 
+  } catch (error) {
+    console.log("Unable to delete Job",error);
+    res.status(400).json({
+      success:false,
+      message:error.message,
+    })
+  }
+})
+
 
 export default router;
